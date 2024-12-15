@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Files {
+  id        String   @id @default(uuid()) // 파일 고유 식별자
+  filename  String   @map("file_name") // 파일 이름
+  path      String
+  size      Int // 파일 크기 (바이트 단위)
+  mimetype  String   @map("mime_type") // MIME 타입 (예: image/jpeg, application/pdf)
+  isActive  Boolean  @default(true) @map("is_active") // 파일 활성화 여부
+  createdAt DateTime @default(now()) @map("created_at") // 파일 업로드 시간
+  updatedAt DateTime @updatedAt @map("updated_at") // 마지막 수정 시간
+
+  @@map("files")
+}
